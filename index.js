@@ -9,6 +9,7 @@ import * as PostController from "./controllers/PostController.js"
 import * as CommentController from "./controllers/CommentController.js"
 import cors from "cors"
 import handleValidationErrors from "./utils/handleValidationErrors.js";
+import fs from 'fs'
 
 const app = express()
 app.use(express.json()) // команда для считывания json с наших запросов 
@@ -17,6 +18,9 @@ app.use('/uploads', express.static('uploads'))
 
 const storage = multer.diskStorage({
     destination: (_, __, cb) => {
+        if(!fs.existsSync('uploads')) {
+            fs.mkdirSync('uploads')
+        }
         cb( null, 'uploads')
     },
     filename: (_, file, cb) => {
