@@ -3,13 +3,15 @@ import mongoose from "mongoose";
 import multer from "multer";
 import { loginValidation, registerValidation } from "./validations/validation.js";
 import checkAuth from "./utils/checkAuth.js";
-import * as UserController from "./controllers/UserController.js"
-import * as ProfileController from "./controllers/ProfileController.js"
-import * as PostController from "./controllers/PostController.js"
-import * as CommentController from "./controllers/CommentController.js"
-import cors from "cors"
+import * as UserController from "./controllers/UserController.js";
+import * as ProfileController from "./controllers/ProfileController.js";
+import * as PostController from "./controllers/PostController.js";
+import * as CommentController from "./controllers/CommentController.js";
+import * as ChatController from "./controllers/ChatController.js";
+import * as MessageController from "./controllers/MessageController.js";
+import cors from "cors";
 import handleValidationErrors from "./utils/handleValidationErrors.js";
-import fs from 'fs'
+import fs from 'fs';
 
 const app = express()
 app.use(express.json()) // команда для считывания json с наших запросов 
@@ -65,6 +67,12 @@ app.delete('/post/:id', checkAuth, PostController.deletePost)
 app.post('/comment/:postId', checkAuth, CommentController.createComment)
 app.get('/comment/:postId', CommentController.getPostComments)
 
+
+app.post('/chat', checkAuth, ChatController.accessChat )
+app.get('/chat', checkAuth, ChatController.fetchChats )
+
+app.post('/message', checkAuth, MessageController.sendMessage)
+app.get('/message/:chatId', checkAuth, MessageController.allMessages)
 
 
 app.listen(1111, (err) => err ? console.log(err) : console.log('Server Ok') );
