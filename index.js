@@ -12,6 +12,8 @@ import * as MessageController from "./controllers/MessageController.js";
 import cors from "cors";
 import handleValidationErrors from "./utils/handleValidationErrors.js";
 import fs from 'fs';
+import { Server } from 'socket.io'
+
 
 const app = express()
 app.use(express.json()) // команда для считывания json с наших запросов 
@@ -75,4 +77,41 @@ app.post('/message', checkAuth, MessageController.sendMessage)
 app.get('/message/:chatId', checkAuth, MessageController.allMessages)
 
 
+
 app.listen(1111, (err) => err ? console.log(err) : console.log('Server Ok') );
+
+// const io = new Server(server)
+
+// const ioServer = io(server, {
+//     pingTimeout: 60000,
+//     cors: {
+//         origin: 'http://localhost:1111'
+//     }
+// } )
+
+// ioServer.on('connection', (socket) => {
+//     console.log('connected socket io')
+// })
+
+// var io = require('socket.io')(server);
+// io.on(server, {
+//     pingTimeout: 60000,
+//     cors: {
+//         origin: 'http://localhost:1111'
+//     }
+// })
+
+// io.on('connection', (socket) => {
+//     console.log('connected socket io')
+// })
+
+// io(server, {
+//     pingTimeout: 60000,
+//     cors: {
+//         origin: 'http://localhost:1111'
+//     }
+// }) 
+
+// io.on('connection', (socket) => {
+//     console.log('connected socket io')
+// })

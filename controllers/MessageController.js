@@ -21,10 +21,10 @@ export const sendMessage = async (req, res) => {
         let message = await doc.save()
         message = await message.populate('sender', 'firstName lastName avatar')
         message = await message.populate('chat')       
-        message = await UserModel.populate(message, {
-            path: 'chat.users',
-            select: 'firstName lastName avatar'
-        }) 
+        // message = await UserModel.populate(message, {
+        //     path: 'chat.users',
+        //     select: 'firstName lastName avatar'
+        // }) 
 
         await ChatModel.findByIdAndUpdate(chatId, {
             latestMessage: message
