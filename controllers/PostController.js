@@ -95,12 +95,14 @@ export const getOnePost = async (req, res) => {
 
 export const getAllPosts = async (req, res) => {
     try{
-        const posts = await PostModel.find().populate({ path: 'user', select: 'firstName lastName email avatar' }).sort({updateAt: -1})
+        const posts = await PostModel.find().populate({ path: 'user', select: 'firstName lastName email avatar' }).sort({updatedAt: -1})
         if(!posts) {
             return res.json({
                 message: "постов еще нет"
             })
         }
+
+        res.json(posts)
     } catch(err) {
         console.log(err)
         res.status(404).json({

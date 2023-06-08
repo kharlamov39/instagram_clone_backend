@@ -14,7 +14,7 @@ export const getProfile = async (req, res) => {
         }
 
         const { ...profileData} = profile._doc
-        profileData.posts.reverse()
+        // profileData.posts.reverse()
         res.json({...profileData})
         
     } catch(err) {
