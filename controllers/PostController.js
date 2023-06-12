@@ -95,14 +95,32 @@ export const getOnePost = async (req, res) => {
 
 export const getAllPosts = async (req, res) => {
     try{
-        const posts = await PostModel.find().populate({ path: 'user', select: 'firstName lastName email avatar' }).sort({updatedAt: -1})
+
+        const page = parseInt(req.query.page) || 1
+        const limit = 5
+        const startIndex = (page - 1) * limit
+
+        const posts = await PostModel.find()
+        .populate({ path: 'user', select: 'firstName lastName email avatar' })
+        .sort({updatedAt: -1})
+        .skip(startIndex)
+        .limit(limit)
+
+        const count = await PostModel.countDocuments()
+
         if(!posts) {
             return res.json({
                 message: "постов еще нет"
             })
         }
 
-        res.json(posts)
+        res.json({
+            posts, 
+            currentPage: page, 
+            limit,
+            totalPage: Math.ceil(count/limit), 
+            totalPosts: count
+        })
     } catch(err) {
         console.log(err)
         res.status(404).json({

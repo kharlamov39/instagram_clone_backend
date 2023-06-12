@@ -78,40 +78,39 @@ app.get('/message/:chatId', checkAuth, MessageController.allMessages)
 
 
 
-app.listen(1111, (err) => err ? console.log(err) : console.log('Server Ok') );
+const server = app.listen(1111, (err) => err ? console.log(err) : console.log('Server Ok') );
 
-// const io = new Server(server)
+const io = new Server(server, {
+    pingTimeout: 60000,
+    cors: {
+        origin: 'http://localhost:3000'
+    }
+})
 
-// const ioServer = io(server, {
-//     pingTimeout: 60000,
-//     cors: {
-//         origin: 'http://localhost:1111'
-//     }
-// } )
 
-// ioServer.on('connection', (socket) => {
-//     console.log('connected socket io')
-// })
+io.on('connection', (socket) => {
+    console.log('connected socket io')
 
-// var io = require('socket.io')(server);
-// io.on(server, {
-//     pingTimeout: 60000,
-//     cors: {
-//         origin: 'http://localhost:1111'
-//     }
-// })
+    // socket.on('join chat', (room) => {
+    //     socket.join(room)
+    //     console.log('User joined chat ' + room)
+    // })
 
-// io.on('connection', (socket) => {
-//     console.log('connected socket io')
-// })
+    socket.on('message', (data) => {
+        const chat = data.chat
 
-// io(server, {
-//     pingTimeout: 60000,
-//     cors: {
-//         origin: 'http://localhost:1111'
-//     }
-// }) 
+        if(!chat.users) return console.log('chat users in not defined')
 
-// io.on('connection', (socket) => {
-//     console.log('connected socket io')
-// })
+        chat.users.forEach( (user) => {
+            if(user == data.sender._id ) return; 
+            // socket.in(user).emit('response, data')
+            io.emit('response', data)
+        })
+    })
+
+    
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected')
+    })
+})
