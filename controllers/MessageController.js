@@ -1,6 +1,5 @@
 import MessageModel from '../models/Message.js'
 import ChatModel from '../models/Chat.js'
-import UserModel from '../models/User.js'
 
 export const sendMessage = async (req, res) => {
     try {

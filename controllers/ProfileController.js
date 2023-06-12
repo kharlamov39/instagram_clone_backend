@@ -5,7 +5,8 @@ import CommentModel from "../models/Comment.js"
 export const getProfile = async (req, res) => {
     try{
         const profileId = req.params.id
-        const profile = await UserModel.findOne({_id: profileId}, '-passwordHash -v').populate({path: 'posts', select: 'text image' })
+        const profile = await UserModel.findOne({_id: profileId}, '-passwordHash -v')
+        .populate({path: 'posts',options: { sort: {createdAt: -1}} ,select: 'text image' })
 
         if(!profile) {
             return res.status(404).json({

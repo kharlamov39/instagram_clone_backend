@@ -26,7 +26,7 @@ export const createComment = async (req, res) => {
 
 export const getPostComments = async (req, res) => {
     try {
-        const post = await PostModel.findById(req.params.postId)
+        const post = await PostModel.findById(req.params.postId).populate({path: 'comments', options: {sort: {createdAt: -1}}})
         const list = await Promise.all(
             post.comments.map( (comment) => {
                 return CommentModel.findById(comment).populate({path: 'user', select: 'firstName lastName _id email avatar'})
