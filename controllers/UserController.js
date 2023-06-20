@@ -1,4 +1,3 @@
-import { validationResult } from "express-validator"
 import UserModel from "../models/User.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
@@ -8,7 +7,7 @@ export const register = async (req, res) => {
         const isUser = await UserModel.findOne({email: req.body.email}).populate('posts')
         if(isUser) {
             return res.status(403).json({
-                message: "Email занят"
+                message: "User with this email already exists"
             })
         }
 
@@ -36,7 +35,7 @@ export const register = async (req, res) => {
     } catch (err) {
         console.log(err)
         res.status(500).json({
-            message: 'не удалось зарегистрироваться'
+            message: 'Failed to register'
         })
     }
 }
@@ -49,20 +48,20 @@ export const login = async (req, res) => {
 
         if(!user) {
             return res.status(404).json({
-                message: 'Пользователь не найден'
+                message: 'User is not found'
             })
         }
 
         const isValidPassword = await bcrypt.compare(req.body.password, user._doc.passwordHash)
         if(!isValidPassword) {
             return res.status(400).json({
-                message: 'Неверный логин или пароль'
+                message: 'Wrong login or password'
             })
         }
 
         const token = jwt.sign( { _id: user._id}, 'secret123', { expiresIn: '30d'} )
 
-        const {passwordHash, __v, ...userData} = user._doc
+        const { passwordHash, __v, ...userData} = user._doc
         res.json({
             ...userData,
             token
@@ -71,21 +70,21 @@ export const login = async (req, res) => {
     } catch(err) {
         console.log(err)
         res.status(500).json({
-            message: 'Не удалось войти'
+            message: 'Failed to login'
         })
     }
 }
 
 export const authMe = async (req, res) => {
     try {
-        const user = await UserModel.findById(req.userId)
+        const user = await UserModel.findById(req.userId, '-passwordHash')
         if(!user) {
             res.status(404).json({
-                message: "Пользователь не найден"
+                message: "User is not found"
             })
         }
 
-        const {passwordHash, __v, ...userData} = user._doc
+        const { __v, ...userData} = user._doc
         res.json({
             ...userData
         })
@@ -93,7 +92,7 @@ export const authMe = async (req, res) => {
     } catch(err) {
         console.log(err)
         res.status(500).json({
-            message: 'Не удалось войти'
+            message: 'Failed to auth'
         })
     }
 }
