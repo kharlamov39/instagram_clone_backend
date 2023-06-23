@@ -9,6 +9,7 @@ import * as PostController from "./controllers/PostController.js";
 import * as CommentController from "./controllers/CommentController.js";
 import * as ChatController from "./controllers/ChatController.js";
 import * as MessageController from "./controllers/MessageController.js";
+import * as FollowController from "./controllers/FollowController.js";
 import cors from "cors";
 import handleValidationErrors from "./utils/handleValidationErrors.js";
 import fs from 'fs';
@@ -76,6 +77,10 @@ app.get('/chat', checkAuth, ChatController.fetchChats )
 app.post('/message', checkAuth, MessageController.sendMessage)
 app.get('/message/:chatId', checkAuth, MessageController.allMessages)
 
+app.get('/follow/:userId/followers', checkAuth, FollowController.getFollowers)
+app.get('/follow/:userId/following', checkAuth, FollowController.getFollowing)
+app.post('/follow/:userId', checkAuth, FollowController.follow )
+app.delete('/follow/:userId', checkAuth, FollowController.unfollow )
 
 
 const server = app.listen(1111, (err) => err ? console.log(err) : console.log('Server Ok') );
@@ -91,11 +96,6 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
     console.log('connected socket io')
 
-    // socket.on('join chat', (room) => {
-    //     socket.join(room)
-    //     console.log('User joined chat ' + room)
-    // })
-
     socket.on('message', (data) => {
         const chat = data.chat
 
@@ -107,8 +107,6 @@ io.on('connection', (socket) => {
             io.emit('response', data)
         })
     })
-
-    
 
     socket.on('disconnect', () => {
         console.log('Client disconnected')

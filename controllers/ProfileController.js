@@ -6,7 +6,7 @@ export const getProfile = async (req, res) => {
     try{
         const profileId = req.params.id
         const profile = await UserModel.findOne({_id: profileId}, '-passwordHash -v')
-        .populate({path: 'posts',options: { sort: {createdAt: -1}} ,select: 'text image' })
+        .populate({path: 'posts',options: { sort: {createdAt: -1}}, select: 'text image' })
 
         if(!profile) {
             return res.status(404).json({
@@ -15,7 +15,6 @@ export const getProfile = async (req, res) => {
         }
 
         const { ...profileData} = profile._doc
-        // profileData.posts.reverse()
         res.json({...profileData})
         
     } catch(err) {
