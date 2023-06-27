@@ -20,14 +20,14 @@ const app = express()
 app.use(express.json()) // команда для считывания json с наших запросов 
 app.use(cors())
 
-const corsConf = {
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-  }
+// const corsConf = {
+//     origin: "*",
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     preflightContinue: false,
+//     optionsSuccessStatus: 204
+//   }
   
-app.use(cors(corsConf));
+// app.use(cors(corsConf));
 
 app.use('/uploads', express.static('uploads'))
 
@@ -113,7 +113,7 @@ io.on('connection', (socket) => {
 
         chat.users.forEach( (user) => {
             io.emit('res', data)
-            console.log(data)
+            // console.log(data)
             if(user == data.sender._id ) return; 
             // socket.in(user).emit('response, data')
             io.emit('response', data)

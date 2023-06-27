@@ -31,6 +31,7 @@ export const sendMessage = async (req, res) => {
         })
 
         res.json(message)
+        console.log(message)
 
     } catch(err) {
         console.log(err)
