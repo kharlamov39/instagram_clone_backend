@@ -75,7 +75,7 @@ export const deleteProfile = async (req, res) => {
 export const searchProfiles = async (req, res) => {
     try{
         const search = new RegExp(`^${req.body.search}`, 'i')
-        const profiles = await UserModel.find({lastName: search}, '-passwordHash -posts')
+        const profiles = await UserModel.find({lastName: search}, '-passwordHash -posts -following -followers')
         if(!profiles.length) {
             return res.json({
                 message: "Ничего не найдено"

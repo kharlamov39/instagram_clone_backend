@@ -102,11 +102,14 @@ io.on('connection', (socket) => {
         if(!chat.users) return console.log('chat users in not defined')
 
         chat.users.forEach( (user) => {
+            io.emit('res', data)
+            console.log(data)
             if(user == data.sender._id ) return; 
             // socket.in(user).emit('response, data')
             io.emit('response', data)
         })
     })
+
 
     socket.on('disconnect', () => {
         console.log('Client disconnected')
