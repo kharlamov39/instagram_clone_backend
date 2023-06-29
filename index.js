@@ -20,6 +20,13 @@ const app = express()
 app.use(express.json()) // команда для считывания json с наших запросов 
 app.use(cors())
 
+// const corsOptions ={
+//     origin:'http://localhost:3000', 
+//     credentials:true,            //access-control-allow-credentials:true
+//     optionSuccessStatus:200
+// }
+// app.use(cors(corsOptions));
+
 // const corsConf = {
 //     origin: "*",
 //     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -93,12 +100,12 @@ app.post('/follow/:userId', checkAuth, FollowController.follow )
 app.delete('/follow/:userId', checkAuth, FollowController.unfollow )
 
 
-const server = app.listen( process.env.PORT || 1111, (err) => err ? console.log(err) : console.log('Server Ok') );
+const server = app.listen( 1111, (err) => err ? console.log(err) : console.log('Server Ok') );
 
 const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: 'https://instagram-clone-frontend-blond.vercel.app/'
+        origin: 'http://localhost:3000/'
     }
 })
 
