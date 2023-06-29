@@ -98,7 +98,7 @@ const server = app.listen(1111, (err) => err ? console.log(err) : console.log('S
 const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: 'http://localhost:3000'
+        origin: 'https://instagram-clone-frontend-blond.vercel.app/'
     }
 })
 
