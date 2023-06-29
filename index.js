@@ -92,8 +92,7 @@ const server = app.listen( port, (err) => err ? console.log(err) : console.log('
 const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: '*',
-        credentials: true
+        origin: '*'
     }
 })
 
