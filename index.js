@@ -85,7 +85,9 @@ app.post('/follow/:userId', checkAuth, FollowController.follow )
 app.delete('/follow/:userId', checkAuth, FollowController.unfollow )
 
 
-const server = app.listen( 1111, (err) => err ? console.log(err) : console.log('Server Ok') );
+const port = process.env.PORT || 1111
+
+const server = app.listen( port, (err) => err ? console.log(err) : console.log('Server Ok') );
 
 const io = new Server(server, {
     pingTimeout: 60000,
