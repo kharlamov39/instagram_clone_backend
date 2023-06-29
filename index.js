@@ -18,16 +18,16 @@ import { Server } from 'socket.io'
 
 const app = express()
 app.use(express.json()) // команда для считывания json с наших запросов 
-// app.use(cors())
+app.use(cors())
 
-const corsConf = {
-    origin: "*",
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: false,
-    optionsSuccessStatus: 204
-  }
+// const corsConf = {
+//     origin: "*",
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     preflightContinue: false,
+//     optionsSuccessStatus: 204
+//   }
   
-app.use(cors(corsConf));
+// app.use(cors(corsConf));
 
 app.use('/uploads', express.static('uploads'))
 
