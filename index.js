@@ -20,21 +20,6 @@ const app = express()
 app.use(express.json()) // команда для считывания json с наших запросов 
 app.use(cors())
 
-// const corsOptions ={
-//     origin:'http://localhost:3000', 
-//     credentials:true,            //access-control-allow-credentials:true
-//     optionSuccessStatus:200
-// }
-// app.use(cors(corsOptions));
-
-// const corsConf = {
-//     origin: "*",
-//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//     preflightContinue: false,
-//     optionsSuccessStatus: 204
-//   }
-  
-// app.use(cors(corsConf));
 
 app.use('/uploads', express.static('uploads'))
 
@@ -105,7 +90,7 @@ const server = app.listen( 1111, (err) => err ? console.log(err) : console.log('
 const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: 'http://localhost:3000/'
+        origin: 'http://localhost:3000'
     }
 })
 
