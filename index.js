@@ -107,7 +107,7 @@ io.on('connection', (socket) => {
 
         chat.users.forEach( (user) => {
             io.emit('res', data)
-            // console.log(data)
+            console.log(data)
             if(user == data.sender._id ) return; 
             // socket.in(user).emit('response, data')
             io.emit('response', data)
