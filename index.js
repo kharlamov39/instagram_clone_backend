@@ -13,15 +13,15 @@ import * as FollowController from "./controllers/FollowController.js";
 import cors from "cors";
 import handleValidationErrors from "./utils/handleValidationErrors.js";
 import fs from 'fs';
-import { Server } from 'socket.io'
+import { Server } from 'socket.io';
 
+mongoose
+.connect('mongodb+srv://kharlamov39:eden@cluster0.lgvw0dz.mongodb.net/myapp?retryWrites=true&w=majority')
+.then( () => console.log('DB ok'))
+.catch( (err) => console.log(err, 'DB error'))
 
 const app = express()
-app.use(express.json()) // команда для считывания json с наших запросов 
-app.use(cors())
 
-
-app.use('/uploads', express.static('uploads'))
 
 const storage = multer.diskStorage({
     destination: (_, __, cb) => {
@@ -37,10 +37,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage })
 
-mongoose
-.connect('mongodb+srv://kharlamov39:eden@cluster0.lgvw0dz.mongodb.net/myapp?retryWrites=true&w=majority')
-.then( () => console.log('DB ok'))
-.catch( (err) => console.log(err, 'DB error'))
+app.use('/uploads', express.static('uploads'))
+
+app.use(express.json()) // команда для считывания json с наших запросов 
+app.use(cors())
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
