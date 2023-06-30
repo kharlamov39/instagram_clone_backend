@@ -101,7 +101,7 @@ export const getAllPosts = async (req, res) => {
 
         const posts = await PostModel.find()
         .populate({ path: 'user', select: 'firstName lastName email avatar' })
-        .sort({updatedAt: -1})
+        .sort({createdAt: -1})
         .skip(startIndex)
         .limit(limit)
 
