@@ -1,5 +1,5 @@
-import PostModel from '../models/Post.js'
-import UserModel from '../models/User.js'
+import PostModel from "../models/Post.js";
+import UserModel from "../models/User.js";
 
 export const createPost = async (req, res) => {
     try{
@@ -71,7 +71,6 @@ export const getOnePost = async (req, res) => {
     try{
         const postId = req.params.id
         const post = await PostModel.findOne({_id: postId}).populate({ path: 'user', select: 'firstName lastName email avatar' })
-        // const comments = await CommentModel.find({ post: postId });
 
         if(!post) {
             res.status(400).json({
@@ -117,7 +116,7 @@ export const getAllPosts = async (req, res) => {
             posts, 
             currentPage: page, 
             limit,
-            totalPage: Math.ceil(count/limit), 
+            totalPages: Math.ceil(count/limit), 
             totalPosts: count
         })
     } catch(err) {
