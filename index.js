@@ -101,14 +101,15 @@ io.on('connection', (socket) => {
         const chat = data.chat
 
         if(!chat.users) return console.log('chat users in not defined')
+        io.emit('res', data)
 
-        chat.users.forEach( (user) => {
-            console.log(data)
-            if(user == data.sender._id ) return; 
-            io.emit('res', data)
-            // socket.in(user).emit('response, data')
-            io.emit('response', data)
-        })
+        // chat.users.forEach( (user) => {
+        //     console.log(data)
+        //     if(user == data.sender._id ) return; 
+        //     // io.emit('res', data)
+        //     socket.in(user).emit('res', data)
+        //     // io.emit('response', data)
+        // })
     })
 
 
