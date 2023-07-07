@@ -16,7 +16,7 @@ import fs from "fs";
 import { Server } from "socket.io";
 
 mongoose
-.connect('mongodb+srv://kharlamov39:eden@cluster0.lgvw0dz.mongodb.net/myapp?retryWrites=true&w=majority')
+.connect(process.env.MONGODB_URI)
 // .connect(process.env.MONGODB_URI)
 .then( () => console.log('DB ok'))
 .catch( (err) => console.log(err, 'DB error'))
